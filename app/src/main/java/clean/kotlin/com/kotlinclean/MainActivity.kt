@@ -3,27 +3,41 @@ package clean.kotlin.com.kotlinclean
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import clean.kotlin.com.kotlinclean.kxt.callFunWithFunctionAsArgument
+import clean.kotlin.com.kotlinclean.kxt.toast
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        btTryOne.setOnClickListener {
+            val p = getDivisionBy(getRandomInt())
+            toast("The operation with 2 / i is $p")
+        }
 
-        val id = callFunWithFunctionAsArgument { getStringWithParameter(2000) }
-
-        id.let { Log.d("Test", "2") }
-
-        val idB = callFunWithFunctionAsArgument { getBoolean() }
-        Log.d("KotlinClean", "True $idB")
+        btTryTwo.setOnClickListener {
+            val p = isEven(getRandomInt())
+            toast("The operation isEven for return $p")
+        }
     }
 
-    private fun getStringWithParameter(i: Int): Int {
-        return i
+    private fun getRandomInt(): Int {
+        val randomNumber = (1..12).shuffled().first()
+        return randomNumber
     }
 
-    private fun getBoolean(): Boolean {
-        return false
+    private fun getDivisionBy(i: Int): Int {
+        Log.d("KotlinClean", "start long event.....")
+        val result = 2 / i
+        Log.d("KotlinClean", "end long event .....")
+        return result
+    }
+
+    private fun isEven(randomNumber: Int): Boolean {
+        Log.d("KotlinClean", "start long event.....")
+        val b = 2 % randomNumber == 0
+        Log.d("KotlinClean", "end long event .....")
+        return b
     }
 }
