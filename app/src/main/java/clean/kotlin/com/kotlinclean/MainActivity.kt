@@ -12,32 +12,36 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btTryOne.setOnClickListener {
-            val p = getDivisionBy(getRandomInt())
+            var randomNumber = getRandomInt()
+            val p = callFunWithFunctionAsArgument { getDivisionBy(randomNumber) }
             toast("The operation with 2 / i is $p")
         }
 
         btTryTwo.setOnClickListener {
-            val p = isEven(getRandomInt())
+            var randomNumber = getRandomInt()
+            val p = callFunWithFunctionAsArgument { isEven(randomNumber)}
             toast("The operation isEven for return $p")
         }
+    }
+
+    private fun getDivisionBy(i: Int): Int {
+        return 2 / i
+    }
+
+    private fun isEven(randomNumber: Int): Boolean {
+        return 2 % randomNumber == 0
     }
 
     private fun getRandomInt(): Int {
         val randomNumber = (1..12).shuffled().first()
         return randomNumber
     }
+}
 
-    private fun getDivisionBy(i: Int): Int {
-        Log.d("KotlinClean", "start long event.....")
-        val result = 2 / i
-        Log.d("KotlinClean", "end long event .....")
-        return result
-    }
 
-    private fun isEven(randomNumber: Int): Boolean {
-        Log.d("KotlinClean", "start long event.....")
-        val b = 2 % randomNumber == 0
-        Log.d("KotlinClean", "end long event .....")
-        return b
-    }
+private inline fun <T> callFunWithFunctionAsArgument(function: () -> T): T{
+    Log.d("KotlinClean", "start long event.....")
+    val elResultado = function()
+    Log.d("KotlinClean", "end long event .....")
+    return elResultado
 }
